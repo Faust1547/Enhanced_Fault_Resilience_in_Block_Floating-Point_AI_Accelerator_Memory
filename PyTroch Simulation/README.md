@@ -3,16 +3,16 @@
 ## 執行流程
 
 1. Train Models
-2. Run Monte Carlo Simulation
-3. Generate Constraint Data
-
+2. Run Fault Injection
+3. Generate Error Score
+4. Run Remapping Sweep
 ---
 
 ## 執行方式
 ### 1. Train Models
-以 CIFAR-10 訓練 AlexNet 或 VGG16，產生後續模擬所需的 `.pth` 模型權重。
+以 CIFAR-10 訓練 AlexNet 、 VGG16 、 GoogLeNet 與 ResNet18，產生後續模擬所需的 `.pth` 模型權重。
 ```bash
-python  "PyTorch Simulation/Train Models/VGG16_CIFAR-10.py"
+python  "PyTorch Simulation/Train Models/VGG16_CIFAR10.py"
 ```
 ### 2. Monte Carlo Simulation
 執行蒙地卡羅錯誤注入與 Remapping 模擬，實驗參數由對應的 `.json` 設定檔指定。
