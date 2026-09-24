@@ -12,14 +12,16 @@ Results
     └── Timing
 ```
 ## RTL Simulation
-透過 Testbench 驗證 AES-128 加密與解密功能，比對預期結果與實際輸出，並展示六組測試案例之 Post-simulation 通過結果。
+透過 Testbench 驗證完整系統流程正確運行且正確選擇重新映射模式，並且能夠正確將資料依據映射模式存入 SRAM 中，而後再送入 Flash meomory。
 
 ## VLSI Implement
-| Specification | TSMC 90 nm 1P9M | TSMC N16 ADFP |
-|---|---|---|
-| Frequency | 200 MHz | 1.25 GHz |
-| Timing Closure | Setup / Hold Met | Setup / Hold Met|
-| Dynamic Power | 17.7559 mW | 10.6 mW |
-| Core Area | 557,343.647 μm² | 10,777.54 μm² |
-| Chip Area | 1,044,749.730 μm² | 21,025.00 μm² |
-| LVS | Correct | Correct |
+| Specification | TSMC 90 nm 1P9M | 
+|---|---|
+| Frequency | 200 MHz | 
+| Page Buffer Size | 16 KB | 
+| Timing Closure | Setup / Hold Met |
+| Dynamic Power | 29.9801 mW |
+| Cell Leakage Power | 1.1363 mW |
+| Core Area | 879,628.279 μm² |
+| Chip Area | 1,371,395.020 μm² |
+| LVS | Correct |
