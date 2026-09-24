@@ -1,4 +1,4 @@
-# 軟體端（Python）－ 蒙地卡羅模擬實驗
+# 軟體端（Python）
 
 ## 執行流程
 
@@ -39,28 +39,28 @@ python "PyTorch Simulation/Fault Injection/VGG16_single_fault_injection_bit_swee
 ### 3. Generate Error Score
 根據 Fault Injection 產生的 Bit Sweep 資料計算出各位元對應的 Error Score，並採用分組方式決定數值防止位元級距過大。
 ```bash
-python PyTorch Simulation/Error Score Generator/Generate_ES_Candidates.py 
-  PyTorch Simulation/Error Score Generator/VGG16_CIFAR10_bit_sweep_new_SM.csv # 讀取的 Bit Sweep 資料路徑
-  --baseline 92.74                                                            # 基準模型準確率
-  --raw-method log-auc                                                        # raw_importance 計算方式
-  --es-min 2                                                                  # 最小 ES
-  --es-max 32                                                                 # 最大 ES
-  --group-levels "32,16,8,4,2"                                                # ES 區間
-  --group-tolerance 0.07                                                      # ES 區間級距
-  --output-prefix D:/Anaconda/PythonCode/Error_Score/AlexNet_E.csv            # 產出檔案路徑
+python PyTorch Simulation/Error Score Generator/Generate_ES_Candidates.py \ 
+  PyTorch Simulation/Error Score Generator/VGG16_CIFAR10_bit_sweep_new_SM.csv \ # 讀取的 Bit Sweep 資料路徑
+  --baseline 92.74 \                                                            # 基準模型準確率
+  --raw-method log-auc \                                                        # raw_importance 計算方式
+  --es-min 2 \                                                                  # 最小 ES
+  --es-max 32 \                                                                 # 最大 ES
+  --group-levels "32,16,8,4,2" \                                                # ES 區間
+  --group-tolerance 0.07 \                                                      # ES 區間級距
+  --output-prefix D:/Anaconda/PythonCode/Error_Score/AlexNet_E.csv              # 產出檔案路徑
 ```
+
 ### 4. Run Remapping Sweep
 根據 Fault Injection 產生的 Bit Sweep 資料計算出各位元對應的 Error Score，並採用分組方式決定數值防止位元級距過大。
 ```bash
-python PyTorch Simulation/Error Score Generator/Generate_ES_Candidates.py 
-  PyTorch Simulation/Error Score Generator/VGG16_CIFAR10_bit_sweep_new_SM.csv # 讀取的 Bit Sweep 資料路徑
-  --baseline 92.74                                                            # 基準模型準確率
-  --raw-method log-auc                                                        # raw_importance 計算方式
-  --es-min 2                                                                  # 最小 ES
-  --es-max 32                                                                 # 最大 ES
-  --group-levels "32,16,8,4,2"                                                # ES 區間
-  --group-tolerance 0.07                                                      # ES 區間級距
-  --output-prefix D:/Anaconda/PythonCode/Error_Score/AlexNet_E.csv            # 產出檔案路徑
+python PyTorch Simulation/Remapping Sweep/VGG16_CIFAR10_remapping_sweep.py 
+    --checkpoint "D:/Anaconda/PythonCode/data/vgg16_cifar10_ckpt_best.pth" 
+    --arch vgg16 \
+    --data-root "D:/Anaconda/PythonCode/data" \
+    --bers 1e-8,1e-7,1e-6,1e-5,5e-5,1e-4,5e-4,7e-4,9e-4,1e-3,3e-3,6e-3,8e-3,1e-2,2e-2,3e-2,4e-2,5e-2 \
+    --trials 20 \
+    --workers 0 \
+    --output-dir "D:/Anaconda/PythonCode/results/AlexNet_remapping_run1"
 ```
 
 
