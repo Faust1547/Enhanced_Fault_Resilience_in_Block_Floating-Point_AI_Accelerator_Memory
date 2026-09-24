@@ -6,40 +6,70 @@
 2. Run Fault Injection
 3. Generate Error Score
 4. Run Remapping Sweep
+
 ---
 
 ## 執行方式
+
+以下範例以 VGG16 為主；終端機指令請從 repository 根目錄執行。多行指令採 Bash（例如 Git Bash）的 `\` 續行語法。
+
 ### 1. Train Models
-使用 CIFAR-10 資料集訓練 AlexNet、VGG16、GoogLeNet 與 ResNet18 模型，產生後續 Fault Injection 與 Remapping Sweep 所需的 .pth 模型權重。
+
+使用 CIFAR-10 資料集訓練 AlexNet、VGG16、GoogLeNet 與 ResNet18 模型，產生後續 Fault Injection 與 Remapping Sweep 所需的 `.pth` 模型權重。
+
 ```bash
-python  "PyTorch Simulation/Train Models/VGG16_CIFAR10.py"
+python "PyTorch Simulation/Train Models/VGG16_CIFAR10.py"
 ```
+
 ### 2. Run Fault Injection
+
 使用 MSFP 格式進行模型權重轉換，並針對不同 Bit Position 與 BER 執行錯誤注入實驗，記錄模型準確率的變化，產生後續位元重要性分析所需的 Bit Sweep 資料。
-```bash
- run_exponent_bit_sweep_to_csv(                # Exponent 或 Sign & Mantissa Bit 都可以使用
-     ber_list = [1e-4, 1e-3, 1e-2, 1e-1],      # 要測試的 BER
-     bit_points=[15],                          # 要測試的 Bit
-     csv_name="VGG16_CIFAR10_bit_sweep.csv",   # 輸出檔案名稱
-     mant_bits=7,                              # Mantissa Bit 長度
-     box_size=16,                              # Bounding Box Size
-     repeats=30,                               # 重複實驗次數，最終取平均值
-     base_seed=0,                              
-     data_root=DATA_ROOT,                      # 訓練集資料來源
-     ckpt_path=CKPT_PATH,                      # 訓練完成權重資料來源
-     batch_size=256,                           
-     num_workers=0,
-     )
+
+**程式內部參數設定範例**（在對應的 `.py` 檔案中修改，而非貼至終端機）：
+
+```python
+run_exponent_bit_sweep_to_csv(
+    ber_list=[1e-4, 1e-3, 1e-2, 1e-1],
+    bit_points=[15],
+    csv_name="VGG16_CIFAR10_bit_sweep.csv",
+    mant_bits=7,
+    box_size=16,
+    repeats=30,
+    base_seed=0,
+    data_root=DATA_ROOT,
+    ckpt_path=CKPT_PATH,
+    batch_size=256,
+    num_workers=0,
+)
 ```
-執行檔案須包含 MSFP_Conveter.py。
+
+| 參數 | 範例值 | 說明 |
+|---|---|---|
+| `ber_list` | `[1e-4, 1e-3, 1e-2, 1e-1]` | 測試的 BER 清單 |
+| `bit_points` | `[15]` | 要測試的 Bit Position；可用於 Exponent 或 Sign & Mantissa 的測試設定 |
+| `csv_name` | `VGG16_CIFAR10_bit_sweep.csv` | 輸出檔案名稱 |
+| `mant_bits` | `7` | Mantissa Bit 長度 |
+| `box_size` | `16` | Bounding Box Size |
+| `repeats` | `30` | 重複實驗次數，最終取平均值 |
+| `base_seed` | `0` | 隨機種子基準值 |
+| `data_root` | `DATA_ROOT` | 資料集路徑 |
+| `ckpt_path` | `CKPT_PATH` | 訓練完成的模型權重路徑 |
+| `batch_size` | `256` | 批次大小 |
+| `num_workers` | `0` | 資料載入工作程序數量 |
+
+執行檔案須包含 `MSFP_Converter.py`。
+
 ```bash
-python "PyTorch Simulation/Fault Injection/VGG16_single_fault_injection_bit_sweep.py" 
+python "PyTorch Simulation/Fault Injection/VGG16_single_fault_injection_bit_sweep.py"
 ```
 
 ### 3. Generate Error Score
+
 根據 Fault Injection 產生的 Bit Sweep 資料，計算各位元對模型準確率的影響，並透過分組與數值量化產生 Error Score，供後續重新映射評估使用。
+
 ```bash
 python "PyTorch Simulation/Error Score Generator/Generate_ES_Candidates.py" \
+<<<<<<< HEAD
   "PyTorch Simulation/Error Score Generator/VGG16_CIFAR10_bit_sweep_EXP.csv" \       # 讀取 Bit Sweep 的資料路徑
   --baseline 92.74 \                                                                   # 基準模型準確率
   --raw-method log-auc \                                                               # raw_importance 計算方式
@@ -48,20 +78,59 @@ python "PyTorch Simulation/Error Score Generator/Generate_ES_Candidates.py" \
   --group-levels "32,16,8,4,2" \                                                       # ES 區間
   --group-tolerance 0.07 \                                                             # ES 區間級距
   --output-prefix PyTorch Simulation/Error Score Generator/VGG16_Exp.csv               # 輸出檔案路徑
+=======
+  "PyTorch Simulation/Error Score Generator/VGG16_CIFAR10_bit_sweep_EXP.csv" \
+  --baseline 92.74 \
+  --raw-method log-auc \
+  --es-min 2 \
+  --es-max 32 \
+  --group-levels "32,16,8,4,2" \
+  --group-tolerance 0.07 \
+  --output-prefix "PyTorch Simulation/Error Score Generator/VGG16_Exp.csv"
+>>>>>>> 84c183dcbac8865d9693b6e5dbe98894cb682953
 ```
 
+| 參數 | 範例值 | 說明 |
+|---|---|---|
+| 輸入 CSV（位置參數） | `VGG16_CIFAR10_bit_sweep_EXP.csv` | Fault Injection 輸出的 Bit Sweep 資料路徑 |
+| `--baseline` | `92.74` | 基準模型準確率 |
+| `--raw-method` | `log-auc` | `raw_importance` 計算方式 |
+| `--es-min` | `2` | 最小 ES |
+| `--es-max` | `32` | 最大 ES |
+| `--group-levels` | `32,16,8,4,2` | ES 分組層級 |
+| `--group-tolerance` | `0.07` | ES 分組容許值 |
+| `--output-prefix` | `PyTorch Simulation/Error Score Generator/VGG16_Exp.csv` | 輸出檔案路徑／前綴；是否自動附加副檔名依程式實作 |
+
 ### 4. Run Remapping Sweep
+<<<<<<< HEAD
 在不同 BER 條件下進行重新映射實驗，比較未重新映射、Inter-bank 與 Intra-bank 等模式對模型準確率的影響，評估各種重新映射方法的容錯效果。本實驗透過 MSFP_Converter.py 與 inject_faults_loop.py 執行權重格式轉換及錯誤注入，並使用 Generate Error Score 步驟產生的 Error Score 為評估重新映射模式選擇的依據。
+=======
+
+在不同 BER 條件下進行重新映射實驗，比較未重新映射、Inter-bank 與 Intra-bank 等模式對模型準確率的影響，評估各種重新映射方法的容錯效果。本實驗透過 `MSFP_Converter.py` 與 `inject_faults_loop.py` 執行權重格式轉換及錯誤注入；Error Score 的使用方式依副程式內部設定。
+
+>>>>>>> 84c183dcbac8865d9693b6e5dbe98894cb682953
 ```bash
 python "PyTorch Simulation/Remapping Sweep/VGG16_CIFAR10_remapping_sweep.py" \
-    --checkpoint "PyTorch Simulation/Remapping Sweep/vgg16_cifar10_ckpt_best.pth" \                    # 讀取權重資料路徑
-    --arch vgg16 \                                                                                     # 使用 VGG16 模型 (因為有綁定模型架構，故其他模型需另外改寫 Remapping Sweep 才可使用)
-    --data-root "PyTorch Simulation/Remapping Sweep/data" \                                            # 訓練集資料路徑
-    --bers 1e-8,1e-7,1e-6,1e-5,5e-5,1e-4,5e-4,7e-4,9e-4,1e-3,3e-3,6e-3,8e-3,1e-2,2e-2,3e-2,4e-2,5e-2 \ # 測試的 BER
-    --trials 20 \                                                                                      # 重複實驗次數，最終取平均值
-    --workers 0 \                        
-    --output-dir "PyTorch Simulation/Remapping Sweep/VGG16_remapping_result"                           # 輸出檔案路徑
+  --checkpoint "PyTorch Simulation/Remapping Sweep/vgg16_cifar10_ckpt_best.pth" \
+  --arch vgg16 \
+  --data-root "PyTorch Simulation/Remapping Sweep/data" \
+  --bers 1e-8,1e-7,1e-6,1e-5,5e-5,1e-4,5e-4,7e-4,9e-4,1e-3,3e-3,6e-3,8e-3,1e-2,2e-2,3e-2,4e-2,5e-2 \
+  --trials 20 \
+  --workers 0 \
+  --output-dir "PyTorch Simulation/Remapping Sweep/VGG16_remapping_result"
 ```
+
+| 參數 | 範例值 | 說明 |
+|---|---|---|
+| `--checkpoint` | `vgg16_cifar10_ckpt_best.pth` | 模型權重路徑 |
+| `--arch` | `vgg16` | 模型架構；目前此 Remapping Sweep 綁定 VGG16，使用其他模型需另行修改 |
+| `--data-root` | `PyTorch Simulation/Remapping Sweep/data` | 資料集路徑 |
+| `--bers` | `1e-8` 至 `5e-2`（完整清單見上） | 要測試的 BER 清單 |
+| `--trials` | `20` | 重複實驗次數，最終取平均值 |
+| `--workers` | `0` | 資料載入工作程序數量 |
+| `--output-dir` | `PyTorch Simulation/Remapping Sweep/VGG16_remapping_result` | 輸出資料夾 |
+
+---
 
 ## Train Models
 
@@ -96,4 +165,8 @@ python "PyTorch Simulation/Remapping Sweep/VGG16_CIFAR10_remapping_sweep.py" \
 
 - `MSFP_Converter.py`
 - `inject_faults_loop.py`
+<<<<<<< HEAD
 - `VGG16_CIFAR10_remapping_sweep.py`
+=======
+- `VGG16_CIFAR10_remapping_sweep.py`
+>>>>>>> 84c183dcbac8865d9693b6e5dbe98894cb682953
