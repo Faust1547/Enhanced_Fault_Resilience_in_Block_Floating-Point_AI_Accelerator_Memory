@@ -12,7 +12,7 @@ Results
     └── Timing
 ```
 ## RTL Simulation
-透過 Testbench 驗證完整系統流程正確運行且正確選擇重新映射模式，並且能夠正確將資料依據映射模式存入 SRAM 中，而後再送入 Flash meomory。
+透過 Testbench 驗證系統控制流程及重新映射模式選擇功能，並測試映射後資料的 SRAM 寫入控制與後續資料傳輸流程。模擬結果顯示，相關測試案例均通過預期檢查。
 
 ## VLSI Implement
 | Specification | TSMC 90 nm 1P9M | 
