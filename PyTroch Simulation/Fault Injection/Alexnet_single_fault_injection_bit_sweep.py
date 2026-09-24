@@ -1,5 +1,3 @@
-# Alexnet_single_fault_injection_bit_sweep<注入錯誤 + 產出.CSV>
-# AlexNet_CIFAR10_single_fault_injection_bit_sweep <注入錯誤 + 產出 CSV>
 import os
 import torch
 import torch.nn as nn
