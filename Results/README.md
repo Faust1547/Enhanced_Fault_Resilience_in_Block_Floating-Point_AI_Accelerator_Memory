@@ -12,7 +12,7 @@ Results
     └── Timing
 ```
 ## RTL Simulation
-透過 Testbench 驗證 AES-128 加密與解密功能，比對預期結果與實際輸出，並展示六組測試案例之 Post-simulation 通過結果。
+透過 Testbench 驗證完整系統流程正確運行且正確選擇重新映射模式，並且能夠正確將資料依據映射模式存入 SRAM 中，而後再送入 Flash meomory。
 
 ## VLSI Implement
 | Specification | TSMC 90 nm 1P9M | TSMC N16 ADFP |
