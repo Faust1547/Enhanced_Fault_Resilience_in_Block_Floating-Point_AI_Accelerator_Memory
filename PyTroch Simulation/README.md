@@ -69,7 +69,6 @@ python "PyTorch Simulation/Fault Injection/VGG16_single_fault_injection_bit_swee
 
 ```bash
 python "PyTorch Simulation/Error Score Generator/Generate_ES_Candidates.py" \
-<<<<<<< HEAD
   "PyTorch Simulation/Error Score Generator/VGG16_CIFAR10_bit_sweep_EXP.csv" \       # 讀取 Bit Sweep 的資料路徑
   --baseline 92.74 \                                                                   # 基準模型準確率
   --raw-method log-auc \                                                               # raw_importance 計算方式
@@ -78,16 +77,6 @@ python "PyTorch Simulation/Error Score Generator/Generate_ES_Candidates.py" \
   --group-levels "32,16,8,4,2" \                                                       # ES 區間
   --group-tolerance 0.07 \                                                             # ES 區間級距
   --output-prefix PyTorch Simulation/Error Score Generator/VGG16_Exp.csv               # 輸出檔案路徑
-=======
-  "PyTorch Simulation/Error Score Generator/VGG16_CIFAR10_bit_sweep_EXP.csv" \
-  --baseline 92.74 \
-  --raw-method log-auc \
-  --es-min 2 \
-  --es-max 32 \
-  --group-levels "32,16,8,4,2" \
-  --group-tolerance 0.07 \
-  --output-prefix "PyTorch Simulation/Error Score Generator/VGG16_Exp.csv"
->>>>>>> 84c183dcbac8865d9693b6e5dbe98894cb682953
 ```
 
 | 參數 | 範例值 | 說明 |
@@ -102,13 +91,8 @@ python "PyTorch Simulation/Error Score Generator/Generate_ES_Candidates.py" \
 | `--output-prefix` | `PyTorch Simulation/Error Score Generator/VGG16_Exp.csv` | 輸出檔案路徑／前綴；是否自動附加副檔名依程式實作 |
 
 ### 4. Run Remapping Sweep
-<<<<<<< HEAD
 在不同 BER 條件下進行重新映射實驗，比較未重新映射、Inter-bank 與 Intra-bank 等模式對模型準確率的影響，評估各種重新映射方法的容錯效果。本實驗透過 MSFP_Converter.py 與 inject_faults_loop.py 執行權重格式轉換及錯誤注入，並使用 Generate Error Score 步驟產生的 Error Score 為評估重新映射模式選擇的依據。
-=======
 
-在不同 BER 條件下進行重新映射實驗，比較未重新映射、Inter-bank 與 Intra-bank 等模式對模型準確率的影響，評估各種重新映射方法的容錯效果。本實驗透過 `MSFP_Converter.py` 與 `inject_faults_loop.py` 執行權重格式轉換及錯誤注入；Error Score 的使用方式依副程式內部設定。
-
->>>>>>> 84c183dcbac8865d9693b6e5dbe98894cb682953
 ```bash
 python "PyTorch Simulation/Remapping Sweep/VGG16_CIFAR10_remapping_sweep.py" \
   --checkpoint "PyTorch Simulation/Remapping Sweep/vgg16_cifar10_ckpt_best.pth" \
@@ -165,8 +149,6 @@ python "PyTorch Simulation/Remapping Sweep/VGG16_CIFAR10_remapping_sweep.py" \
 
 - `MSFP_Converter.py`
 - `inject_faults_loop.py`
-<<<<<<< HEAD
 - `VGG16_CIFAR10_remapping_sweep.py`
-=======
-- `VGG16_CIFAR10_remapping_sweep.py`
->>>>>>> 84c183dcbac8865d9693b6e5dbe98894cb682953
+
+
