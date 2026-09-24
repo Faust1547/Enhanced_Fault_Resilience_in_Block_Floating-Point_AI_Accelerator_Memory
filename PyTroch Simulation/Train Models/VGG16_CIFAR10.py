@@ -1,4 +1,3 @@
-# Train VGG16 + CIFAR10 <訓練模型>
 import os
 import torch
 import torch.nn as nn
