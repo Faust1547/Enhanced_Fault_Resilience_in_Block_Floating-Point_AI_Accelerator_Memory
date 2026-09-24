@@ -1,4 +1,3 @@
-# VGG16_single_fault_injection_bit_sweep<注入錯誤 + 產出.CSV>
 import copy
 import torch
 import torch.nn as nn
