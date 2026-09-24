@@ -1,4 +1,3 @@
-# Train AlexNet + CIFAR-10 <訓練模型>
 import os
 import torch
 import torch.nn as nn
