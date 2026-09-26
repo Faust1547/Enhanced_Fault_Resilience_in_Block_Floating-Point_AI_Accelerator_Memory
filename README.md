@@ -3,10 +3,10 @@
 ## Overview
 本專題針對以 Microsoft Floating Point (MSFP) 儲存 DNN 權重之 Flash Memory，提出權重重新映射韌性增強架構。透過 Fault Injection 分析不同 Bit Position 對模型準確率的影響，建立 Bit Significance 與 Error Score (ES)，再以 Inter-bank / Intra-bank Remapping 調整權重與故障 Memory Cell 的對應關係，並依 ES 選擇適合的 Remap Mode，以提升 DNN 權重儲存之故障容忍能力。
 
-## Software Flow
+## PyTroch Simulation
 主要由 Python 完成，使用 PyTroch 組件進行 DNN 模型訓練，包含完整模型訓練程式、錯誤注入模擬實驗、Error Score 產生器與重新映射模式對於準確率改善之驗證程式。詳細操作流程與指令皆紀錄於該資料夾之 README 文件。
 
-## RTL Architecture
+## Verilog
 主要由 Verilog 完成，包含完整硬體RTL、Testbench。詳細模組說明與層級介紹皆紀錄於該資料夾之 README 文件。
 
 ## Results
