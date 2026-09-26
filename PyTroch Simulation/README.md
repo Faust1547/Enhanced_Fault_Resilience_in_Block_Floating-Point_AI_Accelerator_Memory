@@ -7,7 +7,6 @@
 3. Generate Error Score
 4. Run Remapping Sweep
 
----
 
 ## 執行方式
 
@@ -114,7 +113,6 @@ python "PyTorch Simulation/Remapping Sweep/VGG16_CIFAR10_remapping_sweep.py" \
 | `--workers` | `0` | 資料載入工作程序數量 |
 | `--output-dir` | `PyTorch Simulation/Remapping Sweep/VGG16_remapping_result` | 輸出資料夾 |
 
----
 
 ## Train Models
 
