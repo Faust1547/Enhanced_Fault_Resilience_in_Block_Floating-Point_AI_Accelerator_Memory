@@ -14,3 +14,6 @@
 
 ## Appendix
 收錄了不同DNN模型與訓練資料集之位元重要性分析結果與不同DNN模型之重新映射準確率改善結果。
+
+
+_Portfolio version prepared by CAI An-Hao 2026 / 09 / 29_
